@@ -8,6 +8,7 @@ import Currency from "./currency"
 import { useRouter } from "next/navigation"
 import { MouseEventHandler } from "react"
 import usePreviewModal from "@/hook/use-preview-modal"
+import useCart from "@/hook/use-cart"
 
 type Props = {
    data: PRODUCT
@@ -16,6 +17,7 @@ type Props = {
 export default function ProductCard({ data }: Props) {
    const router = useRouter()
    const { onOpen } = usePreviewModal()
+   const { addItem } = useCart()
 
    const handleClick = () => {
       router.push(`/product/${data.id}`)
@@ -26,7 +28,10 @@ export default function ProductCard({ data }: Props) {
       onOpen(data)
    }
 
-   const onAddToCart = () => {}
+   const onAddToCart: MouseEventHandler<HTMLButtonElement> = (e) => {
+      e.stopPropagation()
+      addItem(data)
+   }
 
    return (
       <div
